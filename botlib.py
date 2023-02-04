@@ -72,7 +72,10 @@ def get_vk_image(filepath, branch="main"):
 
 # Инициализация констант для более удобной работы в main.py
 CONST_VK_ADMIN_ID = env.VK_ADMIN_ID
-CONST_VK_ADMINLIST_COMMSEP = env.VK_ADMINLIST_COMMSEP.split(",")
+try:
+    CONST_VK_ADMINLIST_COMMSEP = env.VK_ADMINLIST_COMMSEP.split(",")
+except AttributeError:
+    CONST_VK_ADMINLIST_COMMSEP = [CONST_VK_ADMIN_ID]
 
 
 # Установка соединения с GitHub и получение const.json
