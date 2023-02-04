@@ -70,6 +70,11 @@ def get_vk_image(filepath, branch="main"):
     return f"photo{owner_id}_{photo_id}_{access_key}"
 
 
+# Инициализация констант для более удобной работы в main.py
+CONST_VK_ADMIN_ID = env.VK_ADMIN_ID
+CONST_VK_ADMINLIST_COMMSEP = env.VK_ADMINLIST_COMMSEP.split(",")
+
+
 # Установка соединения с GitHub и получение const.json
 github = ConnectGitHub(env.GITHUB_REPO)
 CONST_JSON = json.loads(github.get_file("const.json", "content"))
@@ -84,7 +89,7 @@ HELLO_ANSWER_MESSAGE = CONST_JSON["answers"]["hello"]
 HELLO_ERROR_MESSAGE = CONST_JSON["answers"]["errorMessage"]
 
 # Установка соединения с VK с помощью CONST_JSON["tokenVK"]
-VK = vk_api.VkApi(token=CONST_JSON["tokenVK"])
+VK = vk_api.VkApi(token=env.VK_TOKEN)
 LONGPOLL = VkLongPoll(VK)
 UPLOAD = VkUpload(VK)
 

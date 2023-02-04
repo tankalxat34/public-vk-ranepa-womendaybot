@@ -48,7 +48,7 @@ def _start():
             elif sent_message.lower() == botlib.CONST_JSON["answers"]["secretTriggerMessage"].lower():
                 if botlib.UserVK(user_id).get_sex() == "женский":
                     botlib.send(user_id, botlib.CONST_JSON["answers"]["secretMessage"] % botlib.UserVK(user_id).get_name(), attachment=botlib.SECRET_IMAGE)
-                    botlib.send(int(botlib.CONST_JSON["bigBoss"]),
+                    botlib.send(int(botlib.CONST_VK_ADMIN_ID),
                                 f"🎁 [id{user_id}|{botlib.UserVK(user_id).get_name()} {botlib.UserVK(user_id).get_name('last')}] нашла пасхалку!")
                 else:
                     botlib.send(user_id, botlib.HELLO_ERROR_MESSAGE)
@@ -58,12 +58,12 @@ def _start():
                 botlib.send(user_id, botlib.CONST_JSON["answers"]["author"])
 
             # команды администратора
-            elif str(user_id) in botlib.CONST_JSON["adminList"].split(",") and sent_message.lower()[0] == "/":
+            elif str(user_id) in botlib.CONST_VK_ADMINLIST_COMMSEP and sent_message.lower()[0] == "/":
                 command = sent_message.lower().split()
                 botlib.send(user_id, f"🍕 Вы запустили операцию: "+command[0])
 
-                if int(user_id) != int(botlib.CONST_JSON["bigBoss"]):
-                    botlib.send(int(botlib.CONST_JSON["bigBoss"]), f"🍕 Администратор [id{user_id}|{botlib.UserVK(user_id).get_name()} {botlib.UserVK(user_id).get_name('last')}] запустил операцию: "+command[0])
+                if int(user_id) != int(botlib.CONST_VK_ADMIN_ID):
+                    botlib.send(int(botlib.CONST_VK_ADMIN_ID), f"🍕 Администратор [id{user_id}|{botlib.UserVK(user_id).get_name()} {botlib.UserVK(user_id).get_name('last')}] запустил операцию: "+command[0])
 
                 if command[0] == "/обновить":
                     """Команда перезагружает текстовый и графический контент бота. 
@@ -72,8 +72,8 @@ def _start():
                     Команда останавливает бота до окончания операции!"""
                     importlib.reload(botlib)
                     botlib.send(user_id, "🍕 Обновление бота завершено")
-                    if int(user_id) != int(botlib.CONST_JSON["bigBoss"]):
-                        botlib.send(int(botlib.CONST_JSON["bigBoss"]),
+                    if int(user_id) != int(botlib.CONST_VK_ADMIN_ID):
+                        botlib.send(int(botlib.CONST_VK_ADMIN_ID),
                                 f"🍕 Администратор [id{user_id}|{botlib.UserVK(user_id).get_name()} {botlib.UserVK(user_id).get_name('last')}] завершил операцию: " +
                                 command[0])
                     raise ValueError(command[0])
@@ -91,7 +91,7 @@ def _start():
                     
                     Команда останавливает бота до окончания операции!"""
                     admin_list = ""
-                    for e in botlib.CONST_JSON["adminList"].split(","):
+                    for e in botlib.CONST_VK_ADMINLIST_COMMSEP:
                         admin_list += f"[id{e}|{botlib.UserVK(int(e)).get_name()} {botlib.UserVK(int(e)).get_name('last')}]\n"
                     botlib.send(user_id, "🍕 Список админов чат-бота:\n" + admin_list)
 
